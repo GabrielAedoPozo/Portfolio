@@ -1,6 +1,4 @@
----
-const base = '${Astro.base}'; // Astro reemplaza esto al compilar
----
+
 
 <section id="inicio" class="min-h-screen flex items-center justify-center px-4 pt-2 pb-20">
     <div class="max-w-4xl mx-auto w-full">
@@ -12,7 +10,7 @@ const base = '${Astro.base}'; // Astro reemplaza esto al compilar
                         <!-- Agrega tu foto en /public/foto-perfil.png -->
                         <img 
                             id="foto-perfil"
-                            src=`${base}foto-perfil.png` 
+                            src="/Portfolio/foto-perfil.png"
                             alt="Gabriel Aedo" 
                             class="w-full h-full object-cover"
                             onload="this.style.opacity='1'; document.getElementById('foto-placeholder').style.display='none';"
