@@ -30,4 +30,39 @@ import '../styles/global.css';
 	html {
 		scroll-behavior: smooth;
 	}
+
+	/* Ocultar elementos animados inicialmente */
+	[class*="animate-fade"],
+	[class*="animate-slide"] {
+		opacity: 0;
+	}
+
+	/* Mostrar cuando están visibles */
+	[class*="animate-fade"].animate-visible,
+	[class*="animate-slide"].animate-visible {
+		opacity: 1;
+	}
 </style>
+
+<script>
+	// IntersectionObserver para activar animaciones al entrar en viewport
+	const observerOptions = {
+		threshold: 0.1,
+		rootMargin: '0px 0px -100px 0px'
+	};
+
+	const observer = new IntersectionObserver((entries) => {
+		entries.forEach(entry => {
+			if (entry.isIntersecting) {
+				entry.target.classList.add('animate-visible');
+				observer.unobserve(entry.target);
+			}
+		});
+	}, observerOptions);
+
+	// Observar todos los elementos con clases de animación
+	document.addEventListener('DOMContentLoaded', () => {
+		const animatedElements = document.querySelectorAll('[class*="animate-fade"], [class*="animate-slide"]');
+		animatedElements.forEach(el => observer.observe(el));
+	});
+</script>
