@@ -527,38 +527,53 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const carousel = document.getElementById('projects-carousel');
-        const prevBtn = document.getElementById('prev-btn');
-        const nextBtn = document.getElementById('next-btn');
+        const carousel = document.getElementById('projects-carousel') as HTMLDivElement | null;
+        const prevBtn = document.getElementById('prev-btn') as HTMLButtonElement | null;
+        const nextBtn = document.getElementById('next-btn') as HTMLButtonElement | null;
+        const viewport = carousel?.parentElement as HTMLElement | null;
         
-        if (!carousel || !prevBtn || !nextBtn) return;
+        if (!carousel || !prevBtn || !nextBtn || !viewport) return;
+
+        const carouselEl = carousel;
+        const prevButton = prevBtn;
+        const nextButton = nextBtn;
+        const viewportEl = viewport;
         
         let currentPage = 0;
-        const projectsPerPage = 2;
-        const totalProjects = carousel.children.length;
-        const totalPages = Math.ceil(totalProjects / projectsPerPage);
-        
-        function updateCarousel() {
-            const offset = -currentPage * 100;
-            carousel.style.transform = `translateX(${offset}%)`;
-            
-            prevBtn.disabled = currentPage === 0;
-            nextBtn.disabled = currentPage >= totalPages - 1;
+
+        function getMaxPage() {
+            const pageWidth = viewportEl.clientWidth;
+            if (pageWidth === 0) return 0;
+            const maxOffset = Math.max(0, carouselEl.scrollWidth - pageWidth);
+            return Math.ceil(maxOffset / pageWidth);
         }
         
-        nextBtn.addEventListener('click', () => {
-            if (currentPage < totalPages - 1) {
+        function updateCarousel() {
+            const maxPage = getMaxPage();
+            currentPage = Math.min(currentPage, maxPage);
+            const offset = -currentPage * viewportEl.clientWidth;
+            carouselEl.style.transform = `translateX(${offset}px)`;
+            
+            prevButton.disabled = currentPage === 0;
+            nextButton.disabled = currentPage >= maxPage;
+        }
+        
+        nextButton.addEventListener('click', () => {
+            const maxPage = getMaxPage();
+            if (currentPage < maxPage) {
                 currentPage++;
                 updateCarousel();
             }
         });
         
-        prevBtn.addEventListener('click', () => {
+        prevButton.addEventListener('click', () => {
             if (currentPage > 0) {
                 currentPage--;
                 updateCarousel();
             }
         });
+
+        window.addEventListener('resize', updateCarousel);
         
         updateCarousel();
     });
