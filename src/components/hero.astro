@@ -88,31 +88,10 @@
                     </div>
                 </div>
 
-                <div class="group relative p-5 rounded-2xl bg-white/[0.02] border border-white/[0.08] hover:border-green-500/30 hover:bg-white/[0.04] transition-all duration-300 animate-fade-up animate-delay-[800ms]">
-                    <div class="flex flex-col items-center gap-3">
-                        <span class="icon-[material-icon-theme--nodejs-alt] text-5xl group-hover:scale-110 transition-transform duration-300"></span>
-                        <p class="text-white/80 text-xs font-medium">Node.js</p>
-                    </div>
-                </div>
-
-                <div class="group relative p-5 rounded-2xl bg-white/[0.02] border border-white/[0.08] hover:border-blue-500/30 hover:bg-white/[0.04] transition-all duration-300 animate-fade-up animate-delay-[800ms]">
-                    <div class="flex flex-col items-center gap-3">
-                        <span class="icon-[logos--mysql] text-5xl group-hover:scale-110 transition-transform duration-300"></span>
-                        <p class="text-white/80 text-xs font-medium">MySQL</p>
-                    </div>
-                </div>
-
                <div class="group relative p-5 rounded-2xl bg-white/[0.02] border border-white/[0.08] hover:border-purple-500/30 hover:bg-white/[0.04] transition-all duration-300 animate-fade-up animate-delay-[800ms]">
                     <div class="flex flex-col items-center gap-3">
                         <span class="icon-[logos--stripe] text-5xl group-hover:scale-110 transition-transform duration-300"></span>
                         <p class="text-white/80 text-xs font-medium">Stripe</p>
-                    </div>
-                </div>
-
-                <div class="group relative p-5 rounded-2xl bg-white/[0.02] border border-white/[0.08] hover:border-yellow-400/30 hover:bg-white/[0.04] transition-all duration-300 animate-fade-up animate-delay-[900ms]">
-                    <div class="flex flex-col items-center gap-3">
-                        <span class="icon-[devicon--python] text-5xl text-yellow-400 group-hover:scale-110 transition-transform duration-300"></span>
-                        <p class="text-white/80 text-xs font-medium">Python</p>
                     </div>
                 </div>
 
@@ -643,7 +622,7 @@
                                 <i class="fas fa-coffee text-white text-xl"></i>
                             </div>
                             <div>
-                                <p class="text-white font-bold">Cliente de Peruvian Flavors Coffee</p>
+                                <p class="text-white font-bold">Cliente de Peruvian Flavors Coffee (Mi primer proyecto)</p>
                                 <p class="text-blue-400 text-sm">Proyecto E-commerce</p>
                             </div>
                         </div>
@@ -652,6 +631,46 @@
             </div>
 
             
+        </div>
+
+        <div class="flex flex-col lg:flex-row lg:flex-nowrap justify-center gap-10 mt-20">
+            <button
+                type="button"
+                class="group box-border w-full lg:w-[calc(50%-1.25rem)] cursor-zoom-in backdrop-blur-md bg-gradient-to-br from-white/10 to-white/5 border border-white/20 rounded-3xl p-6 sm:p-8 hover:scale-105 duration-300 animate-fade-right"
+                data-certificate="/Certificado_Html.png"
+                data-certificate-alt="Certificado de HTML"
+                aria-label="Ampliar certificado de HTML"
+            >
+                <img src="/Certificado_Html.png" alt="Certificado de HTML" class="w-full max-w-[90vw]" />
+            </button>
+
+            <button
+                type="button"
+                class="group box-border w-full lg:w-[calc(50%-1.25rem)] cursor-zoom-in backdrop-blur-md bg-gradient-to-br from-white/10 to-white/5 border border-white/20 rounded-3xl p-6 sm:p-8 hover:scale-105 duration-300 animate-fade-right"
+                data-certificate="/Certificado_Css.png"
+                data-certificate-alt="Certificado de CSS"
+                aria-label="Ampliar certificado de CSS"
+            >
+                <img src="/Certificado_Css.png" alt="Certificado de CSS" class="w-full max-w-[90vw]" />
+            </button>
+        </div>
+
+        <div
+            id="certificate-modal"
+            class="fixed inset-0 z-50 hidden items-center justify-center bg-black/85 p-4"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Certificado ampliado"
+        >
+            <button
+                id="certificate-modal-close"
+                type="button"
+                class="absolute right-5 top-5 flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-2xl font-bold text-white transition-colors hover:bg-white/20"
+                aria-label="Cerrar certificado ampliado"
+            >
+                X
+            </button>
+            <img id="certificate-modal-image" src="" alt="" class="max-h-[90vh] max-w-[95vw] object-contain" />
         </div>
 
     </div>
@@ -692,7 +711,7 @@
                 <!-- Primer párrafo -->
                 <div>
                     <p class="text-white/80 text-lg leading-relaxed">
-                        A mis 12 años, he descubierto que la programación es más que un hobby - es mi forma de dar vida a ideas creativas y resolver problemas. Me encanta combinar las <span class="text-blue-400">matemáticas</span> con el código para crear soluciones elegantes.
+                    He descubierto que la programación es más que un hobby - es mi forma de dar vida a ideas creativas y resolver problemas. Me encanta combinar las <span class="text-blue-400">matemáticas</span> con el código para crear soluciones elegantes.
                     </p>
                 </div>
 
@@ -885,6 +904,47 @@
         </div>
     </div>
 </section>
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const modal = document.getElementById('certificate-modal') as HTMLDivElement | null;
+        const modalImage = document.getElementById('certificate-modal-image') as HTMLImageElement | null;
+        const closeButton = document.getElementById('certificate-modal-close') as HTMLButtonElement | null;
+        const certificateButtons = document.querySelectorAll<HTMLButtonElement>('[data-certificate]');
+        let activeButton: HTMLButtonElement | null = null;
+
+        if (!modal || !modalImage || !closeButton) return;
+
+        function closeModal() {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            modalImage.src = '';
+            activeButton?.focus();
+            activeButton = null;
+        }
+
+        certificateButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+                activeButton = button;
+                modalImage.src = button.dataset.certificate || '';
+                modalImage.alt = button.dataset.certificateAlt || '';
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                closeButton.focus();
+            });
+        });
+
+        closeButton.addEventListener('click', closeModal);
+        modal.addEventListener('click', (event) => {
+            if (event.target === modal) closeModal();
+        });
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && !modal.classList.contains('hidden')) closeModal();
+        });
+    });
+</script>
 
 
 
